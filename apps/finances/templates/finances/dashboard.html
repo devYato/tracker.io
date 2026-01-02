@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Dashboard</h1>
+
+  <p><strong>Período:</strong> {{ summary.start }} até {{ summary.end }}</p>
+
+  <ul>
+    <li><strong>Receitas:</strong> {{ summary.income }}</li>
+    <li><strong>Despesas:</strong> {{ summary.expense }}</li>
+    <li><strong>Saldo:</strong> {{ summary.balance }}</li>
+  </ul>
+
+  <h2>Despesas por categoria</h2>
+  <ul>
+    {% for row in summary.by_category %}
+      <li>{{ row.category__name }} — {{ row.total }}</li>
+    {% empty %}
+      <li>Nenhuma despesa no período.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
