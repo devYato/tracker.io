@@ -11,7 +11,7 @@ def create_transaction(
     category_id: int,
     kind: str,
     amount: Decimal,
-    accurred_at: date,
+    occurred_at: date,
     description: str = "",
 ) -> Transaction:
     """
@@ -27,8 +27,8 @@ def create_transaction(
     :type kind: str
     :param amount: Description
     :type amount: Decimal
-    :param accurred_at: Description
-    :type accurred_at: date
+    :param occurred_at: Description
+    :type occurred_at: date
     :param description: Description, defaults to ""
     :type description: str, optional
     :return: Description
@@ -44,7 +44,7 @@ def create_transaction(
         category=category,
         kind=kind,
         amount=amount,
-        accurred_at=accurred_at,
+        occurred_at=occurred_at,
         description=description
     )
     

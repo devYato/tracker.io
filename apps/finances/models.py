@@ -37,14 +37,14 @@ class Transaction(TimeStampedModel):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="transactions")
     kind = models.CharField(max_length=3, choices=Kind.choices)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    accurred_at = models.DateField(db_index=True)
+    occurred_at = models.DateField(db_index=True)
     description = models.CharField(max_length=140, blank=True)
     
     class Meta(TimeStampedModel.Meta):
         indexes = [
-            models.Index(fields=["owner", "accurred_at"]),
-            models.Index(fields=["owner", "kind", "accurred_at"])
+            models.Index(fields=["owner", "occurred_at"]),
+            models.Index(fields=["owner", "kind", "occurred_at"])
         ]
         
     def __str__(self) -> str:
-        return f"{self.Kind(self.kind).label} {self.amount} on {self.accurred_at}"
+        return f"{self.Kind(self.kind).label} {self.amount} on {self.occurred_at}"

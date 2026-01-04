@@ -16,7 +16,7 @@ def monthly_summary(*, owner_id: int, ref: date) -> dict[str, Any]:
     :rtype: dict[str, Any]
     """
     start, end = month_range(ref)
-    qs = Transaction.objects.filter(owner_id=owner_id, accurred_at__gte=start, accurred_at__lt=end)
+    qs = Transaction.objects.filter(owner_id=owner_id, occurred_at__gte=start, occurred_at__lt=end)
     income = qs.filter(kind=Transaction.Kind.INCOME).aggregate(total=Sum("amount"))["total"] or 0
     expense = qs.filter(kind=Transaction.Kind.EXPENSE).aggregate(total=Sum("amount"))["total"] or 0
     balance = income - expense
