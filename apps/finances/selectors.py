@@ -1,8 +1,10 @@
 from datetime import date
+from typing import Any
+
 from django.db.models import Sum
+
 from common.utils import month_range
 from .models import Transaction
-from typing import Any
 
 def monthly_summary(*, owner_id: int, ref: date) -> dict[str, Any]:
     """
@@ -36,3 +38,14 @@ def monthly_summary(*, owner_id: int, ref: date) -> dict[str, Any]:
         "balance": balance,
         "by_category": list(by_category)
     }
+
+
+def transactions_for_month(*, owner_id: int, ref: date) -> list[Transaction]:
+    start, end = month_range(ref)
+    return list(
+        Transaction.objects.filter(
+            owner_id=owner_id,
+            occurred_at__gte=start,
+            occurred_at__lt=end,
+        ).select_related("account", "category").order_by("-occurred_at", "-id")
+    )

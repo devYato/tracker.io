@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Transações</h1>
+
+  <form method="get" style="margin-bottom: 16px;">
+    <label for="month">Mês</label>
+    <input type="month" id="month" name="month" value="{{ month_value }}">
+    <button type="submit">Filtrar</button>
+    <a href="{% url 'finances:transaction-create' %}" style="margin-left: 12px;">Nova transação</a>
+  </form>
+
+  {% include "finances/partials/transaction_table.html" %}
+{% endblock %}
