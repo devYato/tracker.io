@@ -1,0 +1,34 @@
+{% if transactions %}
+  <table border="1" cellpadding="6" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Conta</th>
+        <th>Categoria</th>
+        <th>Valor</th>
+        <th>Descrição</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tx in transactions %}
+        <tr>
+          <td>{{ tx.occurred_at }}</td>
+          <td>{{ tx.get_kind_display }}</td>
+          <td>{{ tx.account.name }}</td>
+          <td>{{ tx.category.name }}</td>
+          <td>{{ tx.amount }}</td>
+          <td>{{ tx.description|default:"-" }}</td>
+          <td>
+            <a href="{% url 'finances:transaction-update' tx.pk %}">Editar</a>
+            |
+            <a href="{% url 'finances:transaction-delete' tx.pk %}">Excluir</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Nenhuma transação encontrada para este mês.</p>
+{% endif %}

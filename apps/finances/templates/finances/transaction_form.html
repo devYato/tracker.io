@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{% if transaction %}Editar transação{% else %}Nova transação{% endif %}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+    <a href="{% url 'finances:transaction-list' %}" style="margin-left: 12px;">Cancelar</a>
+  </form>
+{% endblock %}

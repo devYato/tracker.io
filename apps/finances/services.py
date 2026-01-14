@@ -49,3 +49,40 @@ def create_transaction(
     )
     
     return tx
+
+
+@transaction.atomic
+def update_transaction(
+    *,
+    transaction_instance: Transaction,
+    owner_id: int,
+    account_id: int,
+    category_id: int,
+    kind: str,
+    amount: Decimal,
+    occurred_at: date,
+    description: str = "",
+) -> Transaction:
+    if transaction_instance.owner_id != owner_id:
+        raise PermissionError("Owner mismatch for transaction update")
+
+    account = Account.objects.get(id=account_id, owner_id=owner_id)
+    category = Category.objects.get(id=category_id, owner_id=owner_id)
+
+    transaction_instance.account = account
+    transaction_instance.category = category
+    transaction_instance.kind = kind
+    transaction_instance.amount = amount
+    transaction_instance.occurred_at = occurred_at
+    transaction_instance.description = description
+    transaction_instance.save(update_fields=[
+        "account",
+        "category",
+        "kind",
+        "amount",
+        "occurred_at",
+        "description",
+        "updated_at",
+    ])
+
+    return transaction_instance
